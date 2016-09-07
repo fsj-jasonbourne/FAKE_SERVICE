@@ -1,0 +1,75 @@
+#!/bin/bash
+# chkconfig: 2345 55 25
+# description: make an unreal service to test DEDP-CEMS
+# processname: servicetest
+
+start()
+{
+	if [ -d "/tmp/service_policy/" ]
+	then
+	{
+		echo "path already existed!" >>/dev/null
+	}
+    else
+	{
+        mkdir /tmp/service_policy/ 
+	}
+    fi
+	date_service=`date +%y-%m-%d-%H:%M:%S`
+    echo "service $0 start----${date_service}" >>  /tmp/service_policy/service_start.dat
+}
+
+stop()
+{
+	pkill $0
+	date_service=`date +%y-%m-%d-%H:%M:%S`
+    if [ -d "/tmp/service_policy/" ]
+	then
+	{
+		echo "path already existed!" >>/dev/null
+	}
+    else
+	{
+        mkdir /tmp/service_policy/ 
+	}
+    fi
+    echo "service $0 stop----${date_service}" >>  /tmp/service_policy/service_stop.dat
+}
+
+restart()
+{
+	stop
+	start
+}
+
+status()
+{
+    servicetest=`pgrep servicetest`
+	if [ "${servicetest}X" == 'X' ]
+	then
+	{
+		echo "service $0 stop......"
+	}
+    else
+	{
+		echo "service $0 running......"
+	}
+    fi
+}
+
+case "$1" in
+	start)
+		start 
+		;;
+	stop)
+		stop
+		;;
+	restart)
+		restart
+		;;
+	status)
+	    status
+		;;
+	*)
+		echo $"Usage: $0 {start|stop|restart|status}"
+esac
