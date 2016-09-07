@@ -48,11 +48,11 @@ status()
 	if [ "${servicetest}X" == 'X' ]
 	then
 	{
-		echo "service $0 stop......"
+		echo "service $0 not running......"
 	}
     else
 	{
-		echo "service $0 running......"
+		echo "service $0 is running......"
 	}
     fi
 }
